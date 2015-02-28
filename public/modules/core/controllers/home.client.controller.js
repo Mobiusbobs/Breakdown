@@ -249,6 +249,7 @@ angular.module('core').factory('prompt', function () {
         });
         console.log($scope.outJSON.links);
         // $scope.chartViewModel.nodes;
+        $scope.outText = angular.toJson($scope.outJSON, true);
     };
 
     //
