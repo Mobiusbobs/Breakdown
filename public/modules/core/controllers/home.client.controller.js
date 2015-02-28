@@ -238,17 +238,16 @@ angular.module('core').factory('prompt', function () {
                 name: item.data.id,
                 type: item.data.type,
                 value: item.data.value
-            }
+            };
         });
 
         $scope.outJSON.links = _.map($scope.chartViewModel.connections, function(item) {
             return {
-                name: item.data.id,
-                type: item.data.type,
-                value: item.data.value
-            }
+                src: item.data.source.nodeID,
+                dest: item.data.dest.nodeID + ':' + item.data.dest.connectorIndex
+            };
         });
-        console.log($scope.outJSON.blocks);
+        console.log($scope.outJSON.links);
         // $scope.chartViewModel.nodes;
     };
 
