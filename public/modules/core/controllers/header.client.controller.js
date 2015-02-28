@@ -14,5 +14,18 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 		$scope.$on('$stateChangeSuccess', function() {
 			$scope.isCollapsed = false;
 		});
+
+        $scope.blocks = [
+            {
+                'id': 1,
+                'name': 'Standard Deviation',
+                'Description': 'Standard Deviation Description'
+            },
+            {
+                'id': 2,
+                'name': 'Trigger Power',
+                'Description': 'Hola'
+            }
+        ];
 	}
 ]);

@@ -1,1 +1,10 @@
-myProject!!
+<section data-ng-controller="HeaderController" style="min-height: 800px;padding: 20px;">
+
+    <div ng-repeat="project in authentication.user.projects">
+        <div>
+            <p>{{project.name}}</p>
+            <p>{{project.description}}</p>
+        </div>
+    </div>
+
+</section>
