@@ -176,7 +176,7 @@ angular.module('core').factory('prompt', function () {
         }
     };
 
-    $scope.addBlock = function(name, type, value, base, inputNum, outputNum) {
+    $scope.addBlock = function(title, type, value, base, inputNum, outputNum) {
         var inputConnectors = [], outputConnectors = [];
 
         if (type === 'data') {
@@ -184,15 +184,7 @@ angular.module('core').factory('prompt', function () {
                 { name : '' }
             ]
         }
-        else if (type === 'sum') {
-            inputConnectors = [
-                { name : 'array' }
-            ], 
-            outputConnectors = [
-                { name : 'num' }
-            ]
-        } 
-        else if (type === 'avg') {
+        else if (type === 'sum' || type === 'avg' || type === 'length') {
             inputConnectors = [
                 { name : 'array' }
             ], 
@@ -200,15 +192,7 @@ angular.module('core').factory('prompt', function () {
                 { name : 'num' }
             ]
         }
-        else if (type === 'length') {
-            inputConnectors = [
-                { name : 'array' },
-            ], 
-            outputConnectors = [
-                { name : 'num' }
-            ]
-        }
-        else if (type === 'eachMinus') {
+        else if (type === 'eachMinus' || type === 'eachPower') {
             inputConnectors = [
                 { name : 'array' },
                 { name : 'num'}
@@ -217,52 +201,11 @@ angular.module('core').factory('prompt', function () {
                 { name : 'array' },
             ]
         }
-        else if (type === 'eachPower') {
-            inputConnectors = [
-                { name : 'array' },
-                { name : 'num'}
-            ], 
-            outputConnectors = [
-                { name : 'array' },
-            ]
-        }
-        else if (type === 'plus') {
-            inputConnectors = [
-                { name : 'num' },
-                { name : 'num'}
-            ], 
-            outputConnectors = [
-                { name : 'num' },
-            ]
-        }
-        else if (type === 'minus') {
-            inputConnectors = [
-                { name : 'num' },
-                { name : 'num'}
-            ], 
-            outputConnectors = [
-                { name : 'num' },
-            ]
-        }
-        else if (type === 'multiple') {
-            inputConnectors = [
-                { name : 'num' },
-                { name : 'num'}
-            ], 
-            outputConnectors = [
-                { name : 'num' },
-            ]
-        }
-        else if (type === 'divide') {
-            inputConnectors = [
-                { name : 'num' },
-                { name : 'num'}
-            ], 
-            outputConnectors = [
-                { name : 'num' },
-            ]
-        }
-        else if (type === 'power') {
+        else if (   type === 'plus' || 
+                    type === 'minus' || 
+                    type === 'multiple' || 
+                    type === 'divide' ||
+                    type === 'power') {
             inputConnectors = [
                 { name : 'num' },
                 { name : 'num'}
@@ -273,7 +216,7 @@ angular.module('core').factory('prompt', function () {
         }
 
         var newBlock = {
-            name: name,
+            name: title,
             type: type,
             value: value,
             base: base,
@@ -310,51 +253,6 @@ angular.module('core').factory('prompt', function () {
     };
 
     //
-    // Add a new node to the chart.
-    //
-    $scope.addNewNode = function () {
-
-        var nodeName = prompt("Enter a node name:", "New node");
-        if (!nodeName) {
-            return;
-        }
-
-        //
-        // Template for a new node.
-        //
-        var newNodeDataModel = {
-            name: nodeName,
-            id: nextNodeID++,
-            x: 0,
-            y: 0,
-            inputConnectors: [
-                {
-                    name: "X"
-                },
-                {
-                    name: "Y"
-                },
-                {
-                    name: "Z"
-                }
-            ],
-            outputConnectors: [ 
-                {
-                    name: "1"
-                },
-                {
-                    name: "2"
-                },
-                {
-                    name: "3"
-                }
-            ],
-        };
-
-        $scope.chartViewModel.addNode(newNodeDataModel);
-    };
-
-    //
     // Add an input connector to selected nodes.
     //
     $scope.addNewInputConnector = function () {
@@ -376,16 +274,11 @@ angular.module('core').factory('prompt', function () {
     // Add an output connector to selected nodes.
     //
     $scope.addNewOutputConnector = function () {
-        var connectorName = prompt("Enter a connector name:", "New connector");
-        if (!connectorName) {
-            return;
-        }
-
         var selectedNodes = $scope.chartViewModel.getSelectedNodes();
         for (var i = 0; i < selectedNodes.length; ++i) {
             var node = selectedNodes[i];
             node.addOutputConnector({
-                name: connectorName,
+                name: '',
             });
         }
     };

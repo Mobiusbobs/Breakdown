@@ -52,19 +52,6 @@
 		<div class="col-md-9" style="height: 100%;">
 			<div style="height: 100%;">
 				<button
-					ng-click="addNewNode()"
-					title="Add a new node to the chart"
-					>
-					Add Node
-				</button>
-				<button
-					ng-click="addNewInputConnector()"
-					ng-disabled="chartViewModel.getSelectedNodes().length == 0"
-					title="Add a new input connector to the selected node"
-					>
-					Add Input Connector
-				</button>
-				<button
 					ng-click="addNewOutputConnector()"
 					ng-disabled="chartViewModel.getSelectedNodes().length == 0"
 					title="Add a new output connector to the selected node"
