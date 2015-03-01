@@ -35,3 +35,6 @@ dist
 public/build
 
 *.swp
+.vimrc
+
+npm-debug.log

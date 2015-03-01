@@ -17,6 +17,7 @@
     "jquery": "2.0.2",
     "lodash": "~3.3.1",
     "react": "~0.12.2",
-    "ngReact": "~0.1.4"
+    "ngReact": "~0.1.4",
+    "react-cursor": "~0.9.2"
   }
 }

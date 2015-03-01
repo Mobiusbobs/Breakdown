@@ -29,7 +29,8 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/lodash/lodash.js',
 				'public/lib/react/react.js',
-				'public/lib/ngReact/ngReact.min.js'
+				'public/lib/ngReact/ngReact.min.js',
+				'public/lib/react-cursor.js'
 			]
 		},
 		css: [
