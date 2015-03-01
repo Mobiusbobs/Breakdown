@@ -14,7 +14,9 @@ var ClickableSpan = React.createClass({
 var InterfaceEditorMenu = React.createClass({
 	createUI: function(elementName) {
 		console.log('create ' + elementName);
-		this.props.elements.push(["hello world"]);
+		this.props.elements.push([{
+			type: elementName
+		}]);
 	},
 
 	render: function() {
@@ -34,6 +36,7 @@ var InterfaceEditorMenu = React.createClass({
 	}
 });
 
+// TODO use position from props
 var Draggable = React.createClass({
 	getInitialState: function() {
 		return {
@@ -88,7 +91,12 @@ var InterfaceCanvas = React.createClass({
     };
 
 		var elements = this.props.elements.value.map(function(e, i) {
-			return <Draggable key={i}>{e}</Draggable>;
+			return (
+				<Draggable key={i}>
+					<div>{e.type}</div>
+					{React.createElement(e.type)}
+				</Draggable>
+			);
 		});
 
 		return (
