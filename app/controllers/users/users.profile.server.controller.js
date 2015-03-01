@@ -9,6 +9,30 @@ var _ = require('lodash'),
 	passport = require('passport'),
 	User = mongoose.model('User');
 
+exports.buyBlock = function(req, res) {
+    var boughtList = req.user.boughtBlocks;
+
+    var blockID = parseInt(req.params.blockId);
+
+    console.log('Buying ...'+blockID);
+
+    if(boughtList.indexOf(blockID)<0){
+        req.user.boughtBlocks.push(blockID);
+        req.user.save(function(err, user){
+
+            if(err){
+                console.error(err);
+            }
+
+            console.log('Bought! '+blockID);
+            res.send(user);
+        });
+    }else{
+        console.log('Already have it!');
+        res.send(req.user);
+    }
+};
+
 /**
  * Update user details
  */
