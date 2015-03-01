@@ -120,7 +120,7 @@ var DraggableElement = React.createClass({
 	onClick: function() {
 		console.log('remove');
 
-		var current = this.props.element;
+		var current = this.props.element.value;
 		this.props.elements.
 		apply(function(elements) {
 			return _.filter(elements, function(e) {
@@ -129,12 +129,20 @@ var DraggableElement = React.createClass({
 		});
 	},
 
+	bindNameChanged: function() {
+		var name = this.refs.bindingName.getDOMNode().value;
+		this.props.element.refine('bindingName').set(name);
+	},
+
 	render: function() {
-		var elementType = this.props.element.type;
+		var elementType = this.props.element.value.type;
 		return (
 			<Draggable>
 				<div>
 					{elementType} <ClickableSpan name="x" onClick={this.onClick} />
+				</div>
+				<div>
+					bind to: <input ref="bindingName" onChange={this.bindNameChanged} />
 				</div>
 				{React.createElement(elementType)}
 			</Draggable>
@@ -158,7 +166,7 @@ var InterfaceCanvas = React.createClass({
 			return (
 				<DraggableElement key={e.id}
 					elements={elementsCursor}
-					element={e}	/>
+					element={elementsCursor.refine(i)}	/>
 			);
 		}.bind(this));
 
