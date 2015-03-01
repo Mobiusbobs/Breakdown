@@ -12,7 +12,7 @@
 	border-color: #FA787E;
 }
 .ng-valid.ng-dirty {
-	border-color: #78FA89;
+	border-color: #AEA8D3;
 }
 
 .label {
@@ -30,7 +30,7 @@ Generic reset.
 }
 
 .test {
-	border: 5px red solid;
+	border: 5px #F4B350 solid;
 	padding: 10;
 	margin: 10;
 	font-family: "Times New Roman";
@@ -43,29 +43,29 @@ Styles for nodes and connectors.
 
 .node-rect {
 	stroke: black;
-	stroke-width: 2;
+	stroke-width: 1;
 }
 
 .mouseover-node-rect {
 	stroke: black;
-	stroke-width: 4;
+	stroke-width: 1;
 }
 
 .selected-node-rect {
-	stroke: red;
-	stroke-width: 3;
+	stroke: #FDE3A7;
+	stroke-width: 1;
 }
 
 .connector-circle {
-    fill: white;
+    fill: rgba(103, 128, 159, 1);
+    stroke-width: 0.5px;
     stroke: black;
-    stroke-width: 2;
 }
 
 .mouseover-connector-circle {
     fill: white;
     stroke: black;
-    stroke-width: 3;
+    stroke-width: 1;
 }
 
 /*
@@ -76,33 +76,33 @@ Style for connections.
 }
 
 .connection-line {
-	stroke: gray;
+	stroke: #BDC3C7;
 	stroke-width: 4;
 	fill: transparent;
 }	
 
 .mouseover-connection-line {
-	stroke: gray;
+	stroke: #BDC3C7;
 	stroke-width: 6;
 	fill: transparent;
 }	
 
 .selected-connection-line {
-	stroke: red;
+	stroke: #F4B350;
 	stroke-width: 4;
 	fill: transparent;
 }	
 
 .connection-endpoint {
-	fill: gray;
+	fill: #BDC3C7;
 }
 
 .selected-connection-endpoint {
-	fill: red;
+	fill: #F4B350;
 }	
 
 .mouseover-connection-endpoint {
-	fill: gray;
+	fill: #BDC3C7;
 }
 
 /*
@@ -114,13 +114,13 @@ Style for the connection being dragged out.
 }
 
 .dragging-connection-line {
-	stroke: gray;
+	stroke: #BDC3C7;
 	stroke-width: 3;
 	fill: transparent;
 }	
 
 .dragging-connection-endpoint {
-	fill: gray;
+	fill: #BDC3C7;
 }
 
 /*
@@ -128,7 +128,9 @@ The element (in this case the SVG element) that contains the draggable elements.
 */
 
 .draggable-container {
-	border: solid 1px blue;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(171, 183, 183,0.5);
 }
 
 /*
@@ -136,7 +138,7 @@ Drag selection rectangle.
 */
 
 .drag-selection-rect {
-	stroke: blue;
+	stroke: #6C7A89;
 	stroke-width: 2;
 	fill: transparent;
 }

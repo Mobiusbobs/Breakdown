@@ -1,3 +1,26 @@
+<style>
+    rect {
+        fill: rgba(210, 215, 211,0.8);
+    }
+
+    .connector-circle{
+        fill: rgba(103, 128, 159,0.8);
+    }
+
+    .panel-default{
+        background: #BDC3C7; border: 0; font-family: sans-serif;
+    }
+
+    .panel-body>span {
+        padding: 8px;
+        margin: 5px !important;
+        line-height: 3;
+        font-family: fantasy;
+        font-weight: bolder;
+        font-size: 10px;
+    }
+</style>
+
 <section ng-init="isEditor = true" style="min-height: 800px;padding: 20px;"
          mouse-capture ng-keydown="keyDown($event)" ng-keyup="keyUp($event)" data-ng-controller="HomeController">
 
