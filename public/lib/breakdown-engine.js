@@ -171,6 +171,13 @@ var loadBindings = function(defs, ctx) {
   console.log(ctx.bindings);
 };
 
+var loadUpdates = function(defs, ctx) {
+  ctx.updates = [];
+
+  if (!defs) return;
+  ctx.updates = defs;
+};
+
 var findRootBlocks = function(ctx) {
   ctx.calSeq = [];
 
@@ -227,13 +234,14 @@ var blockToFunc = function(bd) {
         bd.blocks["arg" + i].value = arguments[i];
       }
 
-      calculate(bd);
-      return bd.outputBlock.value;
+      return calculate(bd).then(function() {
+        return bd.outputBlock.value;
+      });
     };
 };
 
 var calculate = function(ctx) {
-  ctx.calSeq.forEach(function(id) {
+  return P.resolve(ctx.calSeq).each(function(id) {
     var b = ctx.blocks[id];
 
     if (b.type === 'data') {
@@ -279,7 +287,7 @@ var calculate = function(ctx) {
       });
     }
 
-    b.value.then(function(result) {
+    return b.value.then(function(result) {
       console.log('calculation result of block: ' + b.name);
       if (typeof result == 'function') {
         console.log('function base: ' + b.base);
@@ -295,7 +303,20 @@ var calculate = function(ctx) {
   });
 };
 
-module.exports = function(data) {
+var update = function(ctx) {
+  return P.resolve(ctx.updates).each(function(link) {
+    var sb = ctx.blocks[link.src];
+    var db = ctx.blocks[link.dest];
+    db.value = P.resolve(sb.value);
+
+    return db.value.tap(function(value) {
+      console.log('update value ' + link.src + ' -> ' + link.dest );
+      console.log(value);
+    });
+  });
+};
+
+var Breakdown = function(data) {
   // loading
   loadBlockDef(data.blockDefs);
 
@@ -303,15 +324,32 @@ module.exports = function(data) {
   loadBlocks(data.blocks, ctx);
   loadLinks(data.links, ctx);
   loadBindings(data.bindings, ctx);
+  loadUpdates(data.updates, ctx);
 
   generateCalSeq(ctx);
 
   console.log('block defs:');
   console.log(blockDefs);
 
-  // run!
-  calculate(ctx);
+  return {
+    run: function() {
+      // run!
+      return calculate(ctx).
+      then(function() {
+        return update(ctx);
+      }).
+      tap(function() {
+        console.log('finish one iteration');
+      });
+    }
+  };
 };
+
+module.exports = function(data) {
+  return Breakdown(data).run();
+};
+
+module.exports.Breakdown = Breakdown;
 
 },{"bluebird":3,"lodash":4}],3:[function(require,module,exports){
 (function (process,global){

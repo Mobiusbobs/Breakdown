@@ -58,6 +58,8 @@ var InterfaceEditorMenu = React.createClass({
 				<Panel>
 					<div>Add UI</div>
 					<ClickableSpan name="textarea" onClick={this.createUI} />
+					<ClickableSpan name="Map" onClick={this.createUI} />
+					<ClickableSpan name="Ball" onClick={this.createUI} />
 				</Panel>
 				<Panel>
 					<div>Program</div>
@@ -110,6 +112,37 @@ var Draggable = React.createClass({
 						onDrag={this.onDrag}>
 				{this.props.children}
 			</div>
+		);
+	}
+});
+
+var Map = React.createClass({
+	bindNameChanged: function() {
+		var name = this.refs.bindingName.getDOMNode().value;
+		this.props.element.refine('bindingName').set(name);
+	},
+
+	render: function() {
+		var element = this.props.element;
+		var elementType = element.type;
+		var result = element.type;
+		var elementProps = {
+			ref: "ele",
+			onChange: this.onChange
+		};
+
+		if (result) {
+			elementProps.value = result;
+		}
+
+		return (
+			<Draggable>
+				<div> Map </div>
+				<div>
+					bind to: <input ref="bindingName" onChange={this.bindNameChanged} />
+				</div>
+				iframe here
+			</Draggable>
 		);
 	}
 });
@@ -182,12 +215,16 @@ var InterfaceCanvas = React.createClass({
 		var elementsCursor = this.props.elements;
 
 		var elements = elementsCursor.value.map(function(e, i) {
+			if (e.type == 'Map') {
+				return (<Map key={e.id} element={e} />);
+			}
+
 			return (
 				<DraggableElement key={e.id}
 					elements={elementsCursor}
-					element={elementsCursor.refine(i)}	/>
+					element={elementsCursor.refine(i)} />
 			);
-		}.bind(this));
+		});
 
 		return (
 			<div className="col-md-9" style={style}>
