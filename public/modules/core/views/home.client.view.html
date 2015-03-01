@@ -16,10 +16,10 @@
 			<div class="panel panel-default">
 			    <div class="panel-body">
 			    	<div>Number block</div>
-			        <span ng-click="addBlock('num: 1', 'data', 1)" class="label label-default">num</span>
-			        <span ng-click="addBlock('array: [1,2,3]', 'data', [1,2,3])" class="label label-default">array</span>
-			        <div>Operation Block</div>
-			        <span ng-click="addBlock('+', 'plus')" class="label label-default">+</span>
+						<span ng-click="addBlock('num: 1', 'data', 1)" class="label label-default">num</span>
+						<span ng-click="addBlock('array: [1,2,3]', 'data', [1,2,3])" class="label label-default">array</span>
+						<div>Operation Block</div>
+						<span ng-click="addBlock('+', 'plus')" class="label label-default">+</span>
 				    <span ng-click="addBlock('-', 'minus')" class="label label-default">-</span>
 				    <span ng-click="addBlock('*', 'multiple')" class="label label-default">*</span>
 				    <span ng-click="addBlock('/', 'divide')" class="label label-default">/</span>
@@ -87,6 +87,5 @@
 	</div>
 	<div ng-hide="isEditor" class="row" style="height: 500px;">
 		<react-component name="InterfaceEditor" />
-		<react-component name="HelloComponent" />
 	</div>
 </section>
