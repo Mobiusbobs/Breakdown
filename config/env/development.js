@@ -3,7 +3,7 @@
 module.exports = {
 	db: 'mongodb://breakdown:breakdown@c215.lighthouse.3.mongolayer.com:10215,c215.lighthouse.2.mongolayer.com:10215/breakdown?replicaSet=set-54d46cb77590a50fa800086d',
 	app: {
-		title: 'Story Code',
+		title: 'StoriCode',
         description: 'StoriCode is the storyboard for API. We componentize every API and operator so everyone can simply drag and drop these components to create applications and data analyses. '
 	},
 	facebook: {
