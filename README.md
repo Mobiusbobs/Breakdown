@@ -1,3 +1,16 @@
+
+## Cautions
+
+### Since MeanJS not support CommonJS in frontend
+
+So after `npm install`, please remember to use browserify to build `react-cursor`.
+
+```
+$ browserify public/lib/react-cursor/src/react-cursor.js -s ReactCursor -o public/lib/react-cursor.js
+```
+
+
+
 [![MEAN.JS Logo](http://meanjs.org/img/logo-small.png)](http://meanjs.org/)
 
 [![Build Status](https://travis-ci.org/meanjs/mean.svg?branch=master)](https://travis-ci.org/meanjs/mean)

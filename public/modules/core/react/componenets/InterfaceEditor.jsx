@@ -14,6 +14,8 @@ var ClickableSpan = React.createClass({
 var InterfaceEditorMenu = React.createClass({
 	createUI: function(elementName) {
 		console.log('create ' + elementName);
+		var v = this.props.nested.refine('n').pendingValue();
+		this.props.nested.refine('n').set(v + 1);
 	},
 
 	render: function() {
@@ -42,6 +44,7 @@ var InterfaceCanvas = React.createClass({
 		return (
 			<div className="col-md-9" style={style}>
 				<div style={style}>
+					{this.props.nested.refine('n').value}
 				</div>
 			</div>
 		);
@@ -51,15 +54,20 @@ var InterfaceCanvas = React.createClass({
 var InterfaceEditor = React.createClass({
 	getInitialState: function() {
 		return {
+			nested: {
+				n: 0
+			},
 			elements: []
 		};
 	},
 
   render: function() {
+		var cursor = ReactCursor.Cursor.build(this);
+
 		return (
 			<div>
-				<InterfaceEditorMenu />
-				<InterfaceCanvas elements={this.state.elements} />
+				<InterfaceEditorMenu nested={cursor.refine('nested')} />
+				<InterfaceCanvas elements={this.state.elements} nested={cursor.refine('nested')} />
 			</div>
     );
   }
