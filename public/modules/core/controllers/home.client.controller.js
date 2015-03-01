@@ -19,6 +19,12 @@ angular.module('core').factory('prompt', function () {
 .controller('HomeController', ['$scope', 'prompt', function ($scope, prompt) {
     $scope.blocks = [];
 
+    var GetUUID = function() {
+        'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+            return v.toString(16);
+        });
+    };
 
     //
     // Code for the delete key.
@@ -48,7 +54,7 @@ angular.module('core').factory('prompt', function () {
     //
     // Selects the next node id.
     //
-    var nextNodeID = 10;
+    var nextNodeID = 100;
 
     //
     // Setup the data-model for the chart.
@@ -246,21 +252,41 @@ angular.module('core').factory('prompt', function () {
     };
 
     $scope.add = function(block) {
+        var id_map = {};
+
         if (!$scope.chartViewModel.nodes) {
             $scope.chartViewModel.nodes = [];
         }
         _.forEach(block.data.nodes, function(item) {
-            $scope.chartViewModel.node.push(item);
+            var newBlock = {
+                name: item.name,
+                type: item.type,
+                value: item.value,
+                base: item.base,
+                id: nextNodeID++,
+                x: item.x,
+                y: item.y,
+                width: item.width,
+                inputConnectors: item.inputConnectors,
+                outputConnectors: item.outputConnectors
+            }
+
+            id_map[item.id] = newBlock.id;
+            $scope.chartViewModel.addNode(newBlock);
         });
 
         console.log($scope.chartViewModel);
 
-        // if (!$scope.chartViewModel.data.connections) {
-        //     $scope.chartViewModel.data.connections = [];
-        // }
-        // _.forEach(block.data.connections, function(item) {
-        //     $scope.chartViewModel.data.connections.push(item);
-        // });
+        if (!$scope.chartViewModel.data.connections) {
+            $scope.chartViewModel.data.connections = [];
+        }
+        _.forEach(block.data.connections, function(item) {
+            var startConnector = $scope.chartViewModel.findOutputConnector(id_map[item.source.nodeID], item.source.connectorIndex)
+            var endConnector = $scope.chartViewModel.findInputConnector(id_map[item.dest.nodeID], item.dest.connectorIndex)
+            $scope.chartViewModel.createNewConnection(startConnector, endConnector);
+        });
+
+        id_map = {};
     };
 
     $scope.output = function() {
@@ -322,6 +348,8 @@ angular.module('core').factory('prompt', function () {
 
         $scope.chartViewModel.deleteSelected();
     };
+
+    
 
     //
     // Create the view-model for the chart and attach to the scope.
