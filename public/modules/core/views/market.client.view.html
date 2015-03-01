@@ -1,4 +1,4 @@
-<section data-ng-controller="HeaderController" style="min-height: 800px;padding: 20px;">
+<section data-ng-controller="MarketController" style="min-height: 800px;padding: 20px;">
 
     <style>
         .bought{
@@ -29,8 +29,10 @@
 
     </style>
 
+    <!-- <div ng-click="doBuy(block.id)"
+         ng-repeat="block in blocks" ng-class="authentication.user.boughtBlocks.indexOf(block.id)>-1?'bought':'block-style'"> -->
     <div ng-click="doBuy(block.id)"
-         ng-repeat="block in blocks" ng-class="authentication.user.boughtBlocks.indexOf(block.id)>-1?'bought':'block-style'">
+         ng-repeat="block in blocks">
         <div>
             <p>Function Name: {{block.name}}</p>
             <p>Function Description: {{block.description}}</p>

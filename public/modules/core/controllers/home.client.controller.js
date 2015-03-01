@@ -16,7 +16,9 @@ angular.module('core').factory('prompt', function () {
 //
 // Application controller.
 //
-.controller('HomeController', ['$scope', '$http', 'prompt', function ($scope, $http, prompt) {
+.controller('HomeController', ['$scope', '$http', 'Authentication', 'prompt', function ($scope, $http, Authentication, prompt) {
+    $scope.authentication = Authentication;
+
     $scope.free_blocks = [
         {
             name: 'num',
@@ -147,10 +149,30 @@ angular.module('core').factory('prompt', function () {
                 ], 
                 connections: []
             }
+        },
+        {
+            name: 'output',
+            data: {
+                nodes: [
+                    {
+                        name: 'output',
+                        type: 'data',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'num' }
+                        ], 
+                        outputConnectors: []
+                    }
+                ], 
+                connections: []
+            }
         }
     ];
 
-    $scope.blocks = [];
+    $scope.blocks = $scope.authentication.user.projects;
 
     var chartDataModel = { nodes: [], connections: [] };
     $scope.chartViewModel = new flowchart.ChartViewModel(chartDataModel);
@@ -296,18 +318,23 @@ angular.module('core').factory('prompt', function () {
         $scope.blocks.push(block);
         $scope.chartViewModel = new flowchart.ChartViewModel({nodes:[], connections:[]});
 
-        $http.post('/someUrl', {msg:'hello word!'}).
-        success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        }).
-        error(function(data, status, headers, config) {
+        $http
+        .post('/blocks', {blocks: $scope.blocks})
+        .success(function(data, status, headers, config) {
+            $scope.authentication.user = data;
+        })
+        .error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
         });
     };
 
     $scope.add = function(block) {
+        if (block.name === 'num' || block.name === 'array') {
+            var name = prompt('Enter an input name:', 'x');
+            block.data.nodes[0].name = name;
+        }
+
         var id_map = {};
 
         if (!$scope.chartViewModel.nodes) {
@@ -346,10 +373,71 @@ angular.module('core').factory('prompt', function () {
     };
 
     $scope.output = function() {
-        $scope.outJSON = {};
-        $scope.outJSON.blocks = _.map($scope.chartViewModel.nodes, function(item) {
+        $scope.outJSON = {
+            blockDefs : {
+                data : "function(a) { return a; }",
+                plus : "function(a, b) { return a + b; }",
+                minus : "function(a, b) { return a - b; }",
+                divide : "function(a, b) { return a / b; }",
+                
+                length : "function(a) { return a.length }",
+                sum : "function(a) { return _.reduce(a, function(x, y) { return x + y; }, 0); }",
+
+                each : "function(a, f) { return P.resolve(a).map(f); }",
+
+                pow : "Math.pow",
+
+                ave : {
+                  numOfArgs : 1,
+                  blocks : [
+                    {
+                      name : "sum",
+                      type : "sum"
+                    },
+                    {
+                      name : "num",
+                      type : "length"
+                    },
+                    {
+                      name : "/",
+                      type : "divide",
+                      isOutput : true
+                    }
+                  ], 
+
+                  links : [
+                    {
+                      src : "arg0",
+                      dest : "sum"
+                    },
+                    {
+                      src : "arg0",
+                      dest : "num"
+                    },
+                    {
+                      src : "sum",
+                      dest : "/:0"
+                    },
+                    {
+                      src : "num",
+                      dest : "/:1"
+                    }
+                  ]
+                }
+            }
+        };
+
+        var map = {};
+
+        $scope.outJSON.blocks = _.map($scope.chartViewModel.nodes, function(item) {    
+            if (item.data.type === 'data') {
+                map[item.data.id] = item.data.name; 
+            } else {
+                map[item.data.id] = item.data.id; 
+            }
+
             return {
-                name: item.data.id,
+                name: map[item.data.id],
                 type: item.data.type,
                 value: item.data.value
             };
@@ -357,8 +445,10 @@ angular.module('core').factory('prompt', function () {
 
         $scope.outJSON.links = _.map($scope.chartViewModel.connections, function(item) {
             return {
-                src: item.data.source.nodeID,
-                dest: item.data.dest.nodeID + ':' + item.data.dest.connectorIndex
+                src: map[item.data.source.nodeID],
+                dest: map[item.data.dest.nodeID] + ':' + item.data.dest.connectorIndex
+                // src: item.data.source.nodeID,
+                // dest: item.data.dest.nodeID + ':' + item.data.dest.connectorIndex
             };
         });
         console.log($scope.outJSON.links);

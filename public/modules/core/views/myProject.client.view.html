@@ -1,10 +1,9 @@
 <section data-ng-controller="HeaderController" style="min-height: 800px;padding: 20px;">
-
-    <div ng-repeat="project in authentication.user.projects">
-        <div>
-            <p>{{project.name}}</p>
-            <p>{{project.description}}</p>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <span style="line-height:1; display: inline-block; margin-right: 1em;" ng-click="add(block)" ng-repeat="block in authentication.user.projects" class="label label-default">
+                {{block.name}}
+            </span>
         </div>
     </div>
-
 </section>

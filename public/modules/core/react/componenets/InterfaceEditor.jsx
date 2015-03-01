@@ -207,6 +207,12 @@ var InterfaceEditor = React.createClass({
 		};
 	},
 
+	// componentWillReceiveProps: function(nextProp) {
+	// 	this.setState({
+	// 		programString: nextProp.program
+	// 	});
+	// },
+
 	run: function(program) {
 		console.log('run');
 
