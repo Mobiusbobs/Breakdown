@@ -14,8 +14,7 @@ var ClickableSpan = React.createClass({
 var InterfaceEditorMenu = React.createClass({
 	createUI: function(elementName) {
 		console.log('create ' + elementName);
-		var v = this.props.nested.refine('n').pendingValue();
-		this.props.nested.refine('n').set(v + 1);
+		this.props.elements.push(["hello world"]);
 	},
 
 	render: function() {
@@ -35,16 +34,67 @@ var InterfaceEditorMenu = React.createClass({
 	}
 });
 
+var Draggable = React.createClass({
+	getInitialState: function() {
+		return {
+			x: 0,
+			y: 0
+		};
+	},
+
+	onDragStart: function(e) {
+		this.setState({
+			lastDragX: e.pageX,
+			lastDragY: e.pageY
+		});
+	},
+
+	onDrag: function(e) {
+		this.setState({
+			x: this.state.x + e.pageX - this.state.lastDragX,
+			y: this.state.y + e.pageY - this.state.lastDragY,
+			lastDragX: e.pageX,
+			lastDragY: e.pageY
+		});
+	},
+
+	render: function() {
+		var style = {
+			backgroundColor: "white",
+			position: "absolute",
+			left: this.state.x + "px",
+			top: this.state.y + "px"
+		};
+
+		return (
+			<div 	draggable 
+						style={style}
+						onDragStart={this.onDragStart}
+						onDrag={this.onDrag}>
+				{this.props.children}
+			</div>
+		);
+	}
+});
+
 var InterfaceCanvas = React.createClass({
+	allowDrop: function(e) {
+		e.preventDefault();
+	},
+
 	render: function() {
     var style = {
       height: "100%"
     };
 
+		var elements = this.props.elements.value.map(function(e, i) {
+			return <Draggable key={i}>{e}</Draggable>;
+		});
+
 		return (
 			<div className="col-md-9" style={style}>
-				<div style={style}>
-					{this.props.nested.refine('n').value}
+				<div style={style} onDragOver={this.allowDrop}>
+					{elements}
 				</div>
 			</div>
 		);
@@ -54,20 +104,18 @@ var InterfaceCanvas = React.createClass({
 var InterfaceEditor = React.createClass({
 	getInitialState: function() {
 		return {
-			nested: {
-				n: 0
-			},
 			elements: []
 		};
 	},
 
   render: function() {
 		var cursor = ReactCursor.Cursor.build(this);
+		var elements = cursor.refine('elements');
 
 		return (
 			<div>
-				<InterfaceEditorMenu nested={cursor.refine('nested')} />
-				<InterfaceCanvas elements={this.state.elements} nested={cursor.refine('nested')} />
+				<InterfaceEditorMenu elements={elements} />
+				<InterfaceCanvas elements={elements} />
 			</div>
     );
   }
