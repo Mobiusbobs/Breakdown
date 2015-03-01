@@ -17,8 +17,143 @@ angular.module('core').factory('prompt', function () {
 // Application controller.
 //
 .controller('HomeController', ['$scope', 'prompt', function ($scope, prompt) {
+    $scope.free_blocks = [
+        {
+            name: 'num',
+            data: {
+                nodes: [
+                    {
+                        name: 'num',
+                        type: 'data',
+                        value: 1,
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [],
+                        outputConnectors: [{ name : '' }]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'array',
+            data: {
+                nodes: [
+                    {
+                        name: 'array',
+                        type: 'data',
+                        value: [1, 2, 3],
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [],
+                        outputConnectors: [{ name : '' }]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'plus',
+            data: {
+                nodes: [
+                    {
+                        name: '+',
+                        type: 'plus',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'num' },
+                            { name : 'num'}
+                        ], 
+                        outputConnectors: [
+                            { name : 'num' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'minus',
+            data: {
+                nodes: [
+                    {
+                        name: '-',
+                        type: 'minus',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'num' },
+                            { name : 'num'}
+                        ], 
+                        outputConnectors: [
+                            { name : 'num' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'multiple',
+            data: {
+                nodes: [
+                    {
+                        name: '*',
+                        type: 'multiple',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'num' },
+                            { name : 'num'}
+                        ], 
+                        outputConnectors: [
+                            { name : 'num' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'divide',
+            data: {
+                nodes: [
+                    {
+                        name: '/',
+                        type: 'divide',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'num' },
+                            { name : 'num'}
+                        ], 
+                        outputConnectors: [
+                            { name : 'num' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        }
+    ];
+
     $scope.blocks = [];
 
+    var chartDataModel = { nodes: [], connections: [] };
+    $scope.chartViewModel = new flowchart.ChartViewModel(chartDataModel);
 
     //
     // Code for the delete key.
@@ -48,90 +183,7 @@ angular.module('core').factory('prompt', function () {
     //
     // Selects the next node id.
     //
-    var nextNodeID = 10;
-
-    //
-    // Setup the data-model for the chart.
-    //
-    var chartDataModel = {
-
-        // nodes: [
-        //     {
-        //         name: "Example Node 1",
-        //         id: 0,
-        //         x: 0,
-        //         y: 0,
-        //         width: 200,
-        //         inputConnectors: [
-        //             {
-        //                 name: "A",
-        //             },
-        //             {
-        //                 name: "B",
-        //             },
-        //             {
-        //                 name: "C",
-        //             },
-        //         ],
-        //         outputConnectors: [
-        //             {
-        //                 name: "A",
-        //             },
-        //             {
-        //                 name: "B",
-        //             },
-        //             {
-        //                 name: "C",
-        //             },
-        //         ],
-        //     },
-
-        //     {
-        //         name: "Example Node 2",
-        //         id: 1,
-        //         x: 400,
-        //         y: 200,
-        //         width: 200,
-        //         inputConnectors: [
-        //             {
-        //                 name: "A",
-        //             },
-        //             {
-        //                 name: "B",
-        //             },
-        //             {
-        //                 name: "C",
-        //             },
-        //         ],
-        //         outputConnectors: [
-        //             {
-        //                 name: "A",
-        //             },
-        //             {
-        //                 name: "B",
-        //             },
-        //             {
-        //                 name: "C",
-        //             },
-        //         ],
-        //     },
-
-        // ],
-
-        // connections: [
-        //     {
-        //         source: {
-        //             nodeID: 0,
-        //             connectorIndex: 1,
-        //         },
-
-        //         dest: {
-        //             nodeID: 1,
-        //             connectorIndex: 2,
-        //         },
-        //     },
-        // ]
-    };
+    var nextNodeID = 100;
 
     //
     // Event handler for key-down on the flowchart.
@@ -234,7 +286,7 @@ angular.module('core').factory('prompt', function () {
     };
 
     $scope.save = function() {
-        var name = prompt("Please enter block name", "");
+        var name = prompt("Please enter story name", "");
 
         var block = {
             name: name,
@@ -242,16 +294,45 @@ angular.module('core').factory('prompt', function () {
         };
 
         $scope.blocks.push(block);
-        $scope.chartViewModel = new flowchart.ChartViewModel([]);
+        $scope.chartViewModel = new flowchart.ChartViewModel({nodes:[], connections:[]});
     };
 
     $scope.add = function(block) {
+        var id_map = {};
+
+        if (!$scope.chartViewModel.nodes) {
+            $scope.chartViewModel.nodes = [];
+        }
         _.forEach(block.data.nodes, function(item) {
-            $scope.chartViewModel.data.nodes.push(item);
+            var newBlock = {
+                name: item.name,
+                type: item.type,
+                value: item.value,
+                base: item.base,
+                id: nextNodeID++,
+                x: item.x,
+                y: item.y,
+                width: item.width,
+                inputConnectors: item.inputConnectors,
+                outputConnectors: item.outputConnectors
+            }
+
+            id_map[item.id] = newBlock.id;
+            $scope.chartViewModel.addNode(newBlock);
         });
+
+        console.log($scope.chartViewModel);
+
+        if (!$scope.chartViewModel.data.connections) {
+            $scope.chartViewModel.data.connections = [];
+        }
         _.forEach(block.data.connections, function(item) {
-            $scope.chartViewModel.data.connections.push(item);
+            var startConnector = $scope.chartViewModel.findOutputConnector(id_map[item.source.nodeID], item.source.connectorIndex)
+            var endConnector = $scope.chartViewModel.findInputConnector(id_map[item.dest.nodeID], item.dest.connectorIndex)
+            $scope.chartViewModel.createNewConnection(startConnector, endConnector);
         });
+
+        id_map = {};
     };
 
     $scope.output = function() {
@@ -314,8 +395,4 @@ angular.module('core').factory('prompt', function () {
         $scope.chartViewModel.deleteSelected();
     };
 
-    //
-    // Create the view-model for the chart and attach to the scope.
-    //
-    $scope.chartViewModel = new flowchart.ChartViewModel(chartDataModel);
 }]);

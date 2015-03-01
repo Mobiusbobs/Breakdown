@@ -1,3 +1,26 @@
+<style>
+    rect {
+        fill: rgba(210, 215, 211,0.8);
+    }
+
+    .connector-circle{
+        fill: rgba(103, 128, 159,0.8);
+    }
+
+    .panel-default{
+        background: #BDC3C7; border: 0; font-family: sans-serif;
+    }
+
+    .panel-body>span {
+        padding: 8px;
+        margin: 5px !important;
+        line-height: 3;
+        font-family: fantasy;
+        font-weight: bolder;
+        font-size: 10px;
+    }
+</style>
+
 <section ng-init="isEditor = true" style="min-height: 800px;padding: 20px;"
          mouse-capture ng-keydown="keyDown($event)" ng-keyup="keyUp($event)" data-ng-controller="HomeController">
 
@@ -6,86 +29,58 @@
         <li role="presentation"><a ng-click="isEditor = false">Interface</a></li>
     </ul>
 
-	<div ng-show="isEditor" class="row" style="height: 500px;">
-		<div class="col-md-3" style="height: 100%;">
-			<div class="panel panel-default">
-				<div class="panel-body">
-				Input
-				</div>
-			</div>
-			<div class="panel panel-default">
-			    <div class="panel-body">
-			    	<div>Number block</div>
-						<span ng-click="addBlock('num: 1', 'data', 1)" class="label label-default">num</span>
-						<span ng-click="addBlock('array: [1,2,3]', 'data', [1,2,3])" class="label label-default">array</span>
-						<div>Operation Block</div>
-						<span ng-click="addBlock('+', 'plus')" class="label label-default">+</span>
-				    <span ng-click="addBlock('-', 'minus')" class="label label-default">-</span>
-				    <span ng-click="addBlock('*', 'multiple')" class="label label-default">*</span>
-				    <span ng-click="addBlock('/', 'divide')" class="label label-default">/</span>
-			    	<span ng-click="addBlock('avg', 'avg')" class="label label-default">avg</span>
-			    	<span ng-click="addBlock('length', 'length')" class="label label-default">length</span>
-			    	<span ng-click="addBlock('sum', 'sum')" class="label label-default">sum</span>
-			    	<span ng-click="addBlock('power', 'power')" class="label label-default">power</span>
-			    	<div>For Block</div>
-			    	<span ng-click="addBlock('each(minus)', 'eachMinus')" class="label label-default">each(minus)</span>
-			    	<span ng-click="addBlock('each(power)', 'eachPower')" class="label label-default">each(power)</span>
-			    </div>
-			</div>
-			<div class="panel panel-default">
-				<div class="panel-body">
-				<p>Output</p>
-				{{outText}}
-				</div>
-			</div>
-			<!-- <div class="panel panel-default">
-			    <div class="panel-heading">
-			        Json Output
-			    </div>
-			    <div class="panel-body">
-			    	<textarea 
-						style="width: 100%; height: 300px;"
-						chart-json-edit
-						view-model="chartViewModel"
-						>
-					</textarea>
-			    </div>
-			</div> -->
-		</div>
-		<div class="col-md-9" style="height: 100%;">
-			<div style="height: 100%;">
-				<button
-					ng-click="addNewOutputConnector()"
-					ng-disabled="chartViewModel.getSelectedNodes().length == 0"
-					title="Add a new output connector to the selected node"
-					>
-					Add Output Connector
-				</button>
-				<button
-					ng-click="deleteSelected()"
-					ng-disabled="chartViewModel.getSelectedNodes().length == 0 && chartViewModel.getSelectedConnections().length == 0"
-					title="Delete selected nodes and connections"
-					>
-					Delete Selected
-				</button>
-				<button
-					ng-click="output()"
-					>
-					output
-				</button>
-				<!--
-				This custom element defines the flowchart.
-				-->
-			    <flow-chart
-		    		style="margin: 5px; width: 100%; height: 100%;"
-			      	chart="chartViewModel"
-			      	>
-			    </flow-chart>
-		    </div>
-
-		</div>
-	</div>
-	<div ng-hide="isEditor" class="row" style="height: 500px;">
-		<react-component name="InterfaceEditor" />
+    <div ng-show="isEditor" class="row" style="height: 500px;">
+        <div class="col-md-3" style="height: 100%;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                	<h6>Default story</h6>
+                    <span style="display: inline-block;" ng-click="add(block)" ng-repeat="block in free_blocks" class="label label-default">
+                        {{block.name}}
+                    </span>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                	<h6>My story</h6>
+                    <span style="display: inline-block;" ng-click="add(block)" ng-repeat="block in blocks" class="label label-default">
+                        {{block.name}}
+                    </span>
+                </div>
+            </div>
+            <!-- <div class="panel panel-default">
+                <div class="panel-body">
+                <p>Output</p>
+                {{outText}}
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Json Output
+                </div>
+                <div class="panel-body">
+                    <textarea 
+                        style="width: 100%; height: 300px;"
+                        chart-json-edit
+                        view-model="chartViewModel"
+                        >
+                    </textarea>
+                </div>
+            </div> -->
+        </div>
+        <div class="col-md-9" style="height: 100%;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <button ng-click="output()" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Show Result</button>
+                    <button ng-click="addNewOutputConnector()" ng-disabled="chartViewModel.getSelectedNodes().length == 0" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Output</button>
+                    <button ng-click="deleteSelected()" ng-disabled="chartViewModel.getSelectedNodes().length == 0 && chartViewModel.getSelectedConnections().length == 0" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</button>
+                    <button ng-click="save()" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Save as a new story</button>
+                    <flow-chart chart="chartViewModel"></flow-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+	<div ng-hide="isEditor">
+		<react-component name="HelloComponent" />
 	</div>
 </section>

@@ -403,7 +403,7 @@ var flowchart = {
 		// Find a specific input connector within the chart.
 		//
 		this.findInputConnector = function (nodeID, connectorIndex) {
-
+			console.log(this);
 			var node = this.findNode(nodeID);
 
 			if (!node.inputConnectors || node.inputConnectors.length <= connectorIndex) {
