@@ -151,6 +151,142 @@ angular.module('core').factory('prompt', function () {
             }
         },
         {
+            name: 'pow',
+            data: {
+                nodes: [
+                    {
+                        name: '^',
+                        type: 'pow',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'num' },
+                            { name : 'num'}
+                        ], 
+                        outputConnectors: [
+                            { name : 'num' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'eachMinus',
+            data: {
+                nodes: [
+                    {
+                        name: 'eachMinus',
+                        type: 'eachMinus',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'array' },
+                            { name : 'num'}
+                        ], 
+                        outputConnectors: [
+                            { name : 'array' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'eachPower',
+            data: {
+                nodes: [
+                    {
+                        name: 'eachPower',
+                        type: 'eachPower',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'array' },
+                            { name : 'num'}
+                        ], 
+                        outputConnectors: [
+                            { name : 'array' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'sum',
+            data: {
+                nodes: [
+                    {
+                        name: 'sum',
+                        type: 'sum',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'array' }
+                        ], 
+                        outputConnectors: [
+                            { name : 'num' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'avg',
+            data: {
+                nodes: [
+                    {
+                        name: 'avg',
+                        type: 'ave',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'array' }
+                        ], 
+                        outputConnectors: [
+                            { name : 'num' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },{
+            name: 'length',
+            data: {
+                nodes: [
+                    {
+                        name: 'length',
+                        type: 'length',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [
+                            { name : 'array' }
+                        ], 
+                        outputConnectors: [
+                            { name : 'num' },
+                        ]
+                    }
+                ], 
+                connections: []
+            }
+        },
+
+
+        {
             name: 'output',
             data: {
                 nodes: [
@@ -162,9 +298,29 @@ angular.module('core').factory('prompt', function () {
                         y: 0,
                         width: 125,
                         inputConnectors: [
-                            { name : 'num' }
+                            { name : '' }
                         ], 
                         outputConnectors: []
+                    }
+                ], 
+                connections: []
+            }
+        },
+        {
+            name: 'mappingData',
+            data: {
+                nodes: [
+                    {
+                        name: 'mappingData',
+                        type: 'mappingData',
+                        id: nextNodeID++,
+                        x: 0,
+                        y: 0,
+                        width: 125,
+                        inputConnectors: [], 
+                        outputConnectors: [
+                            { name : '' }
+                        ]
                     }
                 ], 
                 connections: []
@@ -180,77 +336,77 @@ angular.module('core').factory('prompt', function () {
     //
     // Code for the delete key.
     //
-    var deleteKeyCode = 46;
+    // var deleteKeyCode = 46;
 
-    //
-    // Code for control key.
-    //
-    var ctrlKeyCode = 65;
+    // //
+    // // Code for control key.
+    // //
+    // var ctrlKeyCode = 65;
 
-    //
-    // Set to true when the ctrl key is down.
-    //
-    var ctrlDown = false;
+    // //
+    // // Set to true when the ctrl key is down.
+    // //
+    // var ctrlDown = false;
 
-    //
-    // Code for A key.
-    //
-    var aKeyCode = 17;
+    // //
+    // // Code for A key.
+    // //
+    // var aKeyCode = 17;
 
-    //
-    // Code for esc key.
-    //
-    var escKeyCode = 27;
+    // //
+    // // Code for esc key.
+    // //
+    // var escKeyCode = 27;
 
     //
     // Selects the next node id.
     //
     var nextNodeID = 100;
 
-    //
-    // Event handler for key-down on the flowchart.
-    //
-    $scope.keyDown = function (evt) {
+    // //
+    // // Event handler for key-down on the flowchart.
+    // //
+    // $scope.keyDown = function (evt) {
 
-        if (evt.keyCode === ctrlKeyCode) {
+    //     if (evt.keyCode === ctrlKeyCode) {
 
-            ctrlDown = true;
-            evt.stopPropagation();
-            evt.preventDefault();
-        }
-    };
+    //         ctrlDown = true;
+    //         evt.stopPropagation();
+    //         evt.preventDefault();
+    //     }
+    // };
 
-    //
-    // Event handler for key-up on the flowchart.
-    //
-    $scope.keyUp = function (evt) {
+    // //
+    // // Event handler for key-up on the flowchart.
+    // //
+    // $scope.keyUp = function (evt) {
 
-        if (evt.keyCode === deleteKeyCode) {
-            //
-            // Delete key.
-            //
-            $scope.chartViewModel.deleteSelected();
-        }
+    //     if (evt.keyCode === deleteKeyCode) {
+    //         //
+    //         // Delete key.
+    //         //
+    //         $scope.chartViewModel.deleteSelected();
+    //     }
 
-        if (evt.keyCode == aKeyCode && ctrlDown) {
-            // 
-            // Ctrl + A
-            //
-            $scope.chartViewModel.selectAll();
-        }
+    //     if (evt.keyCode == aKeyCode && ctrlDown) {
+    //         // 
+    //         // Ctrl + A
+    //         //
+    //         $scope.chartViewModel.selectAll();
+    //     }
 
-        if (evt.keyCode == escKeyCode) {
-            // Escape.
-            $scope.chartViewModel.deselectAll();
-        }
+    //     if (evt.keyCode == escKeyCode) {
+    //         // Escape.
+    //         $scope.chartViewModel.deselectAll();
+    //     }
 
-        if (evt.keyCode === ctrlKeyCode) {
-            ctrlDown = false;
+    //     if (evt.keyCode === ctrlKeyCode) {
+    //         ctrlDown = false;
 
-            evt.stopPropagation();
-            evt.preventDefault();
-        }
-    };
+    //         evt.stopPropagation();
+    //         evt.preventDefault();
+    //     }
+    // };
 
     $scope.addBlock = function(title, type, value, base, inputNum, outputNum) {
         var inputConnectors = [], outputConnectors = [];
@@ -333,6 +489,9 @@ angular.module('core').factory('prompt', function () {
         if (block.name === 'num' || block.name === 'array') {
             var name = prompt('Enter an input name:', 'x');
             block.data.nodes[0].name = name;
+            if(!isNaN(parseFloat(name)) && isFinite(name)) {
+                block.data.nodes[0].value = parseFloat(name);
+            }
         }
 
         var id_map = {};
@@ -423,6 +582,128 @@ angular.module('core').factory('prompt', function () {
                       dest : "/:1"
                     }
                   ]
+                },
+
+                eachPower : {
+                  numOfArgs : 2,
+                  blocks : [
+                    {
+                      name : "partialPow",
+                      type : "partial",
+                      base : "pow"
+                    },
+                    {
+                      name : "each",
+                      type : "each",
+                      isOutput : true
+                    }
+                  ], 
+
+                  links : [
+                    {
+                      src : "arg0",
+                      dest : "each:0"
+                    },
+                    {
+                      src : "arg1",
+                      dest : "partialPow:1"
+                    },
+                    {
+                      src : "partialPow",
+                      dest : "each:1"
+                    }
+                  ]
+                },
+
+                eachMinus : {
+                  numOfArgs : 2,
+                  blocks : [
+                    {
+                      name : "partialMinus",
+                      type : "partial",
+                      base : "minus"
+                    },
+                    {
+                      name : "each",
+                      type : "each",
+                      isOutput : true
+                    }
+                  ], 
+
+                  links : [
+                    {
+                      src : "arg0",
+                      dest : "each:0"
+                    },
+                    {
+                      src : "arg1",
+                      dest : "partialMinus:1"
+                    },
+                    {
+                      src : "partialMinus",
+                      dest : "each:1"
+                    }
+                  ]
+                },
+
+                combine : "function(a, b) { return [a, b]; }",
+                request : "function(url) { return P.resolve($.get(url)); }",
+                parseJSON : "JSON.parse",
+                get : "function(a, field) { return a[field]; }",
+
+                mappingData: {
+                  numOfArgs : 1,
+                  blocks : [
+                    {
+                      name : "centerString",
+                      type : "data",
+                      value : "center"
+                    },
+                    {
+                      name : "nameString",
+                      type : "data",
+                      value : "name"
+                    },
+                    {
+                      name : "getCenter",
+                      type : "get"
+                    },
+                    {
+                      name : "getName",
+                      type : "get"
+                    },
+                    {
+                      name : "combine",
+                      type : "combine",
+                      isOutput : true
+                    }
+                  ],
+                  links : [
+                    {
+                      src : "arg0",
+                      dest : "getCenter:0"
+                    },
+                    {
+                      src : "centerString",
+                      dest : "getCenter:1"
+                    },
+                    {
+                      src : "arg0",
+                      dest : "getName:0"
+                    },
+                    {
+                      src : "nameString",
+                      dest : "getName:1"
+                    },
+                    {
+                      src : "getName",
+                      dest : "combine:0"
+                    },
+                    {
+                      src : "getCenter",
+                      dest : "combine:1"
+                    }
+                  ]
                 }
             }
         };
@@ -431,7 +712,7 @@ angular.module('core').factory('prompt', function () {
 
         $scope.outJSON.blocks = _.map($scope.chartViewModel.nodes, function(item) {    
             if (item.data.type === 'data') {
-                map[item.data.id] = item.data.name; 
+                map[item.data.id] = item.data.name;
             } else {
                 map[item.data.id] = item.data.id; 
             }
