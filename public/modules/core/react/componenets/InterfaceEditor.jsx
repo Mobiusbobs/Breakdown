@@ -27,8 +27,9 @@ var Panel = React.createClass({
 var InterfaceEditorMenu = React.createClass({
 	createUI: function(elementName) {
 		console.log('create ' + elementName);
-		this.props.elements.push([{
-			type: elementName
+		this.props.cursor.refine('elements').push([{
+			type: elementName,
+			id: Date.now()
 		}]);
 	},
 
@@ -115,6 +116,32 @@ var Draggable = React.createClass({
 	}
 });
 
+var DraggableElement = React.createClass({
+	onClick: function() {
+		console.log('remove');
+
+		var current = this.props.element;
+		this.props.cursor.refine('elements').
+		apply(function(elements) {
+			return _.filter(elements, function(e) {
+				return e != current;
+			});
+		});
+	},
+
+	render: function() {
+		var elementType = this.props.element.type;
+		return (
+			<Draggable>
+				<div>
+					{elementType} <ClickableSpan name="x" onClick={this.onClick} />
+				</div>
+				{React.createElement(elementType)}
+			</Draggable>
+		);
+	}
+});
+
 var InterfaceCanvas = React.createClass({
 	allowDrop: function(e) {
 		e.preventDefault();
@@ -123,16 +150,17 @@ var InterfaceCanvas = React.createClass({
 	render: function() {
     var style = {
       height: "100%"
-    };
+		};
 
-		var elements = this.props.elements.value.map(function(e, i) {
+		var elementsCursor = this.props.cursor.refine('elements');
+
+		var elements = elementsCursor.value.map(function(e, i) {
 			return (
-				<Draggable key={i}>
-					<div>{e.type}</div>
-					{React.createElement(e.type)}
-				</Draggable>
+				<DraggableElement key={e.id}
+					cursor={this.props.cursor}
+					element={e}	/>
 			);
-		});
+		}.bind(this));
 
 		return (
 			<div className="col-md-9" style={style}>
@@ -154,16 +182,15 @@ var InterfaceEditor = React.createClass({
 
   render: function() {
 		var cursor = ReactCursor.Cursor.build(this);
-		var elementsCursor = cursor.refine('elements');
 		var programStrCursor = cursor.refine('programString');
 
 		return (
 			<div>
 				<InterfaceEditorMenu 
-					elements={elementsCursor} 
+					cursor={cursor} 
 					programStr={programStrCursor}
 				/>
-				<InterfaceCanvas elements={elementsCursor} />
+				<InterfaceCanvas cursor={cursor} />
 			</div>
     );
   }
