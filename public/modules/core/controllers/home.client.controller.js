@@ -246,9 +246,16 @@ angular.module('core').factory('prompt', function () {
     };
 
     $scope.add = function(block) {
+        if (!$scope.chartViewModel.data.nodes) {
+            $scope.chartViewModel.data.nodes = [];
+        }
         _.forEach(block.data.nodes, function(item) {
             $scope.chartViewModel.data.nodes.push(item);
         });
+
+        if (!$scope.chartViewModel.data.connections) {
+            $scope.chartViewModel.data.connections = [];
+        }
         _.forEach(block.data.connections, function(item) {
             $scope.chartViewModel.data.connections.push(item);
         });
