@@ -27,7 +27,7 @@ var Panel = React.createClass({
 var InterfaceEditorMenu = React.createClass({
 	createUI: function(elementName) {
 		console.log('create ' + elementName);
-		this.props.cursor.refine('elements').push([{
+		this.props.elements.push([{
 			type: elementName,
 			id: Date.now()
 		}]);
@@ -121,7 +121,7 @@ var DraggableElement = React.createClass({
 		console.log('remove');
 
 		var current = this.props.element;
-		this.props.cursor.refine('elements').
+		this.props.elements.
 		apply(function(elements) {
 			return _.filter(elements, function(e) {
 				return e != current;
@@ -152,12 +152,12 @@ var InterfaceCanvas = React.createClass({
       height: "100%"
 		};
 
-		var elementsCursor = this.props.cursor.refine('elements');
+		var elementsCursor = this.props.elements;
 
 		var elements = elementsCursor.value.map(function(e, i) {
 			return (
 				<DraggableElement key={e.id}
-					cursor={this.props.cursor}
+					elements={elementsCursor}
 					element={e}	/>
 			);
 		}.bind(this));
@@ -183,14 +183,15 @@ var InterfaceEditor = React.createClass({
   render: function() {
 		var cursor = ReactCursor.Cursor.build(this);
 		var programStrCursor = cursor.refine('programString');
+		var elementsCursor = cursor.refine('elements');
 
 		return (
 			<div>
 				<InterfaceEditorMenu 
-					cursor={cursor} 
+					elements={elementsCursor} 
 					programStr={programStrCursor}
 				/>
-				<InterfaceCanvas cursor={cursor} />
+				<InterfaceCanvas elements={elementsCursor} />
 			</div>
     );
   }
