@@ -53,8 +53,12 @@
 </head>
 
 <body class="ng-cloak">
-<!-- 	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header> -->
-	<section class="content">
+	<header style="background: url('http://images.thetrigger.io/site/launch_bg_0.png');"
+            data-ng-include="'/modules/core/views/header.client.view.html'"
+            class="navbar navbar-fixed-top navbar-inverse"></header>
+	<section class="content" style="background-repeat: no-repeat;
+background-image: url('http://www.mobiusbobs.com/static/images/Features_bg.png');
+background-size: 100% 100%;">
 		<section class="container">
 			{% block content %}{% endblock %}
 		</section>

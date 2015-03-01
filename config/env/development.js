@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/breakdown-dev',
+	db: 'mongodb://breakdown:breakdown@c215.lighthouse.3.mongolayer.com:10215,c215.lighthouse.2.mongolayer.com:10215/breakdown?replicaSet=set-54d46cb77590a50fa800086d',
 	app: {
-		title: 'Breakdown - Development Environment'
+		title: 'Breakdown'
 	},
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',

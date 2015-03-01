@@ -1,0 +1,42 @@
+<section data-ng-controller="HeaderController" style="min-height: 800px;padding: 20px;">
+
+    <style>
+        .bought{
+            background: rgba(197, 239, 247,0.3) !important;
+            cursor: default !important;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            position: relative;
+        }
+
+        .bought:hover{
+            background: rgba(197, 239, 247,0.3) !important;
+        }
+
+        .block-style{
+            background: rgba(197, 239, 247,0.7);
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            position: relative;
+        }
+
+        .block-style:hover{
+            background: rgba(197, 239, 247,0.3);
+        }
+
+    </style>
+
+    <div ng-click="doBuy(block.id)"
+         ng-repeat="block in blocks" ng-class="authentication.user.boughtBlocks.indexOf(block.id)>-1?'bought':'block-style'">
+        <div>
+            <p>Function Name: {{block.name}}</p>
+            <p>Function Description: {{block.description}}</p>
+            <span style="position: absolute;right: 25px;top: 30px;font-size: 40px;" ng-show="authentication.user.boughtBlocks.indexOf(block.id)<0" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            <span style="position: absolute;right: 25px;top: 30px;font-size: 40px;" ng-show="authentication.user.boughtBlocks.indexOf(block.id)>-1" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        </div>
+    </div>
+
+</section>

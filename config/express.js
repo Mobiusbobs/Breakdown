@@ -23,7 +23,7 @@ var fs = require('fs'),
 	consolidate = require('consolidate'),
 	path = require('path');
 
-module.exports = function() {
+module.exports = function(db) {
 	// Initialize express app
 	var app = express();
 
@@ -85,16 +85,16 @@ module.exports = function() {
 	// CookieParser should be above session
 	app.use(cookieParser());
 
-	// Express MongoDB session storage
-	// app.use(session({
-	// 	saveUninitialized: true,
-	// 	resave: true,
-	// 	secret: config.sessionSecret,
-	// 	store: new mongoStore({
-	// 		db: db.connection.db,
-	// 		collection: config.sessionCollection
-	// 	})
-	// }));
+	//Express MongoDB session storage
+	app.use(session({
+		saveUninitialized: true,
+		resave: true,
+		secret: config.sessionSecret,
+		store: new mongoStore({
+			db: db.connection.db,
+			collection: config.sessionCollection
+		})
+	}));
 
 	// use passport session
 	app.use(passport.initialize());

@@ -1,6 +1,12 @@
-<section mouse-capture ng-keydown="keyDown($event)" ng-keyup="keyUp($event)" data-ng-controller="HomeController">
-	<br>
-	<div class="row" style="height: 500px;">
+<section ng-init="isEditor = true" style="min-height: 800px;padding: 20px;"
+         mouse-capture ng-keydown="keyDown($event)" ng-keyup="keyUp($event)" data-ng-controller="HomeController">
+
+	<ul class="nav nav-tabs" style="margin-bottom: 15px;">
+	  	<li role="presentation"><a ng-click="isEditor = true">Editor</a></li>
+	  	<li role="presentation"><a ng-click="isEditor = false">Interface</a></li>
+	</ul>
+
+	<div ng-show="isEditor" class="row" style="height: 500px;">
 		<div class="col-md-3" style="height: 100%;">
 			<div class="panel panel-default">
 				<div class="panel-body">
@@ -78,5 +84,8 @@
 		    </div>
 
 		</div>
+	</div>
+	<div ng-hide="isEditor">
+		
 	</div>
 </section>

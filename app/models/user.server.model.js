@@ -88,7 +88,9 @@ var UserSchema = new Schema({
 	},
 	resetPasswordExpires: {
 		type: Date
-	}
+	},
+    boughtBlocks: [],
+    projects: []
 });
 
 /**
