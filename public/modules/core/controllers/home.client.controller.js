@@ -242,23 +242,25 @@ angular.module('core').factory('prompt', function () {
         };
 
         $scope.blocks.push(block);
-        $scope.chartViewModel = new flowchart.ChartViewModel([]);
+        $scope.chartViewModel = new flowchart.ChartViewModel({nodes:[], connections:[]});
     };
 
     $scope.add = function(block) {
-        if (!$scope.chartViewModel.data.nodes) {
-            $scope.chartViewModel.data.nodes = [];
+        if (!$scope.chartViewModel.nodes) {
+            $scope.chartViewModel.nodes = [];
         }
         _.forEach(block.data.nodes, function(item) {
-            $scope.chartViewModel.data.nodes.push(item);
+            $scope.chartViewModel.node.push(item);
         });
 
-        if (!$scope.chartViewModel.data.connections) {
-            $scope.chartViewModel.data.connections = [];
-        }
-        _.forEach(block.data.connections, function(item) {
-            $scope.chartViewModel.data.connections.push(item);
-        });
+        console.log($scope.chartViewModel);
+
+        // if (!$scope.chartViewModel.data.connections) {
+        //     $scope.chartViewModel.data.connections = [];
+        // }
+        // _.forEach(block.data.connections, function(item) {
+        //     $scope.chartViewModel.data.connections.push(item);
+        // });
     };
 
     $scope.output = function() {
