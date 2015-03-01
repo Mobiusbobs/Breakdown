@@ -77,7 +77,7 @@
       var addPotint = function(x,y){
           var point = new esri.geometry.Point(x,y);
           point = esri.geometry.geographicToWebMercator(point);
-          var symbol = new esri.symbol.PictureMarkerSymbol("marker.png", 32, 32);
+          var symbol = new esri.symbol.PictureMarkerSymbol("https://cdn2.iconfinder.com/data/icons/location-map-simplicity/512/hotel-512.png", 32, 32);
           var graphic = new esri.Graphic(point, symbol);
           var layer = new esri.layers.GraphicsLayer();
           layer.add(graphic);
