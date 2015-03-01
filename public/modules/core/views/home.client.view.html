@@ -30,7 +30,7 @@
     </ul>
 
     <div ng-show="isEditor" class="row" style="height: 500px;">
-        <div class="col-md-3" style="height: 100%;">
+        <div class="col-md-2" style="height: 100%;">
             <div class="panel panel-default">
                 <div class="panel-body">
                 	<h6>Default story</h6>
@@ -42,7 +42,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                 	<h6>My story</h6>
-                    <span style="line-height:1; sdisplay: inline-block;" ng-click="add(block)" ng-repeat="block in blocks" class="label label-default">
+                    <span style="line-height:1; display: inline-block;" ng-click="add(block)" ng-repeat="block in blocks" class="label label-default">
                         {{block.name}}
                     </span>
                 </div>
@@ -67,20 +67,20 @@
                 </div>
             </div> -->
         </div>
-        <div class="col-md-9" style="height: 100%;">
+        <div class="col-md-10" style="height: 100%;">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <button ng-click="output()" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Show Result</button>
                     <button ng-click="addNewOutputConnector()" ng-disabled="chartViewModel.getSelectedNodes().length == 0" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Output</button>
                     <button ng-click="deleteSelected()" ng-disabled="chartViewModel.getSelectedNodes().length == 0 && chartViewModel.getSelectedConnections().length == 0" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</button>
                     <button ng-click="save()" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Save as a new story</button>
-                    <flow-chart chart="chartViewModel"></flow-chart>
+                    <flow-chart style="min-height: 600px;" chart="chartViewModel"></flow-chart>
                 </div>
             </div>
         </div>
     </div>
     
 	<div ng-hide="isEditor">
-		<react-component name="InterfaceEditor"/>
+		<react-component name="InterfaceEditor" props="{ program: outText }"/>
 	</div>
 </section>

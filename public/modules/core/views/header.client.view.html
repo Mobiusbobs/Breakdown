@@ -10,14 +10,14 @@
 	</div>
 	<nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
 		<ul class="nav navbar-nav">
-			<li ui-route="myProject">
+            <li ui-route="editor">
+                <a href="/#!/editor">Editor</a>
+            </li>
+            <li ui-route="myProject">
 				<a href="/#!/myProject">My Stories</a>
 			</li>
 			<li ui-route="market">
 				<a href="/#!/market">Functions</a>
-			</li>
-			<li ui-route="editor">
-				<a href="/#!/editor">Editor</a>
 			</li>
 		</ul>
 		<ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">

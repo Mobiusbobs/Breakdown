@@ -15,7 +15,7 @@ angular.module('core').controller('MarketController', ['$scope', 'Authentication
         $scope.blocks = [
             {
                 id: 1,
-                name: 'num',
+                name: '',
                 data: {
                     nodes: [
                         {
