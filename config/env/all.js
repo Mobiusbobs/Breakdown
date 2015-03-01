@@ -30,7 +30,8 @@ module.exports = {
 				'public/lib/lodash/lodash.js',
 				'public/lib/react/react.js',
 				'public/lib/ngReact/ngReact.min.js',
-				'public/lib/react-cursor.js'
+				'public/lib/react-cursor.js',
+				'public/lib/breakdown-engine.js'
 			]
 		},
 		css: [

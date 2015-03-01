@@ -11,6 +11,19 @@ var ClickableSpan = React.createClass({
 	}
 });
 
+var Panel = React.createClass({
+	render: function() {
+		return (
+			<div className="panel panel-default">
+				<div className="panel-body">
+					{this.props.children}
+				</div>
+			</div>
+		);
+	}
+});
+
+
 var InterfaceEditorMenu = React.createClass({
 	createUI: function(elementName) {
 		console.log('create ' + elementName);
@@ -19,18 +32,40 @@ var InterfaceEditorMenu = React.createClass({
 		}]);
 	},
 
+	run: function() {
+		console.log('run');
+
+		var program = JSON.parse(this.props.programStr.value);
+		BreakDownEngine(program);
+	},
+
+	programChange: function(e) {
+		var programString = this.refs.programArea.getDOMNode().value;
+		this.props.programStr.set(programString);
+	},
+
 	render: function() {
     var style = {
       height: "100%"
     };
 
+		var programString = this.props.programStr.value;
+
 		return (
 			<div className="col-md-3" style={style}>
-				<div className="panel panel-default">
-					<div className="panel-body">
-						<ClickableSpan name="textarea" onClick={this.createUI} />
-					</div>
-				</div>
+				<Panel>
+					<ClickableSpan name="run" onClick={this.run} />
+				</Panel>
+				<Panel>
+					<div>Add UI</div>
+					<ClickableSpan name="textarea" onClick={this.createUI} />
+				</Panel>
+				<Panel>
+					<div>Program</div>
+					<textarea onChange={this.programChange} 
+										ref="programArea"
+										value={programString} />
+				</Panel>
 			</div>
 		);
 	}
@@ -112,18 +147,23 @@ var InterfaceCanvas = React.createClass({
 var InterfaceEditor = React.createClass({
 	getInitialState: function() {
 		return {
-			elements: []
+			elements: [],
+			programString: "{}",
 		};
 	},
 
   render: function() {
 		var cursor = ReactCursor.Cursor.build(this);
-		var elements = cursor.refine('elements');
+		var elementsCursor = cursor.refine('elements');
+		var programStrCursor = cursor.refine('programString');
 
 		return (
 			<div>
-				<InterfaceEditorMenu elements={elements} />
-				<InterfaceCanvas elements={elements} />
+				<InterfaceEditorMenu 
+					elements={elementsCursor} 
+					programStr={programStrCursor}
+				/>
+				<InterfaceCanvas elements={elementsCursor} />
 			</div>
     );
   }
