@@ -33,6 +33,19 @@ exports.buyBlock = function(req, res) {
     }
 };
 
+exports.addMyStory = function(req, res) {
+
+    req.user.projects = req.body.blocks;
+    req.user.save(function(err, user){
+
+        if(err){
+            console.error(err);
+        }
+
+        res.send(user);
+    });
+};
+
 /**
  * Update user details
  */

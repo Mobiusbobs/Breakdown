@@ -24,6 +24,16 @@
 Generic reset.
 */
 
+button.btn.btn-large.btn-primary {
+    background: #553F34;
+    border: #553F34;
+}
+
+button.btn.btn-primary {
+    background: #553F34;
+    border: #553F34;
+}
+
 * {
 	padding: 0;
 	margin: 0;
