@@ -6,11 +6,23 @@
         padding: 0;
     }
 
-    header{
+    header>.container{
         padding-right: 15px;
         padding-left: 15px;
         margin-right: auto;
         margin-left: auto;
+    }
+
+    @media (min-width: 992px){
+        header>.container {
+            width: 970px;
+        }
+    }
+
+    @media (min-width: 768px){
+        header.container{
+            width: 750px;
+        }
     }
 
     .a-block{
