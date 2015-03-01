@@ -307,11 +307,11 @@ angular.module('core').factory('prompt', function () {
             }
         },
         {
-            name: 'mappingData',
+            name: 'expedia_api',
             data: {
                 nodes: [
                     {
-                        name: 'mappingData',
+                        name: 'expedia_api',
                         type: 'mappingData',
                         id: nextNodeID++,
                         x: 0,
