@@ -312,7 +312,7 @@ angular.module('core').factory('prompt', function () {
                 nodes: [
                     {
                         name: 'expedia_api',
-                        type: 'mappingData',
+                        type: 'expedia_api',
                         id: nextNodeID++,
                         x: 0,
                         y: 0,
@@ -704,6 +704,80 @@ angular.module('core').factory('prompt', function () {
                       dest : "combine:1"
                     }
                   ]
+                },
+
+                expedia_api: {
+                    numOfArgs : 0,
+                    blocks: [
+                        {
+                          name : "url",
+                          type : "data",
+                          value : "http://terminal2.expedia.com/nlp/results?q=hotels+in+San%20Francisco&apikey=xUpy2eezAX5P7cWoKY4Rr253PDAkk1AX"
+                        },
+                        {
+                          name : "resultString",
+                          type : "data",
+                          value : "result"
+                        },
+                        {
+                          name : "hotelsString",
+                          type : "data",
+                          value : "hotels"
+                        },
+                        {
+                          name: "request",
+                          type : "request"
+                        },
+                        {
+                          name : "getResult",
+                          type : "get"
+                        },
+                        {
+                          name : "getHotels",
+                          type : "get"
+                        },
+                        {
+                          name : "partialMappingData",
+                          type : "partial",
+                          base : "mappingData"
+                        },
+                        {
+                          name : "mappingData",
+                          type : "each",
+                          isOutput: true
+                        }
+                      ], 
+
+                      links : [
+                        {
+                          src : "url",
+                          dest : "request"
+                        },
+                        {
+                          src : "request",
+                          dest : "getResult:0"
+                        },
+                        {
+                          src : "resultString",
+                          dest : "getResult:1"
+                        },
+                        {
+                          src : "getResult",
+                          dest : "getHotels:0"
+                        },
+                        {
+                          src : "hotelsString",
+                          dest : "getHotels:1"
+                        },
+                        {
+                          src : "getHotels",
+                          dest : "mappingData:0"
+                        },
+                        {
+                          src : "partialMappingData",
+                          dest : "mappingData:1"
+                        }
+                    ]
                 }
             }
         };
