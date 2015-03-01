@@ -123,16 +123,27 @@ var Map = React.createClass({
 	},
 
 	render: function() {
-		var element = this.props.element;
-		var elementType = element.type;
-		var result = element.type;
+		var elementCursor = this.props.element;
+		var elementType = elementCursor.value.type;
+		var result = elementCursor.refine('result').value;
 		var elementProps = {
 			ref: "ele",
 			onChange: this.onChange
 		};
 
 		if (result) {
-			elementProps.value = result;
+			setTimeout(function(){
+				document.getElementById("resultFrame").contentWindow.addPotint(
+					-122.431307, 37.806709
+				);
+
+				result.forEach(function(entry) {
+					document.getElementById("resultFrame").contentWindow.addPotint(
+						entry[1].lng,
+						entry[1].lat
+					);
+				});
+			}, 500);
 		}
 
 		return (
@@ -141,7 +152,7 @@ var Map = React.createClass({
 				<div>
 					bind to: <input ref="bindingName" onChange={this.bindNameChanged} />
 				</div>
-				iframe here
+				<iframe height="300" width="400" id="resultFrame" src="/lib/map/map.html" />
 			</Draggable>
 		);
 	}
@@ -216,7 +227,10 @@ var InterfaceCanvas = React.createClass({
 
 		var elements = elementsCursor.value.map(function(e, i) {
 			if (e.type == 'Map') {
-				return (<Map key={e.id} element={e} />);
+				return (
+					<Map key={e.id} 
+						element={elementsCursor.refine(i)} />
+				);
 			}
 
 			return (
