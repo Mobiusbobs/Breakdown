@@ -91,7 +91,7 @@ var loadBlockDef = function(defs) {
         };
       }
 
-      loadBlock(def.blocks, bctx);
+      loadBlocks(def.blocks, bctx);
 
       Object.keys(def.blocks).forEach(function(key) {
         var block = def.blocks[key];
@@ -108,7 +108,7 @@ var loadBlockDef = function(defs) {
   });
 };
 
-var loadBlock = function(defs, ctx) {
+var loadBlocks = function(defs, ctx) {
   ctx.blocks = ctx.blocks || {};
 
   defs.forEach(function(def) {
@@ -156,6 +156,19 @@ var loadLinks = function(defs, ctx) {
   console.log(ctx.links);
   console.log('generated inverse links:');
   console.log(ctx.invLinks);
+};
+
+var loadBindings = function(defs, ctx) {
+  ctx.bindings = ctx.bindings || {};
+
+  if (!defs) return;
+
+  Object.keys(defs).forEach(function(bname) {
+    ctx.bindings[bname] = defs[bname];
+  });
+
+  console.log('load bindings:');
+  console.log(ctx.bindings);
 };
 
 var findRootBlocks = function(ctx) {
@@ -223,8 +236,15 @@ var calculate = function(ctx) {
   ctx.calSeq.forEach(function(id) {
     var b = ctx.blocks[id];
 
-    // data don't need to calculate if data already have value
-    if (b.type === 'data' && typeof b.value != 'undefined') return;
+    if (b.type === 'data') {
+      // get value from binding
+      if (ctx.bindings && ctx.bindings[id]) {
+        b.value = ctx.bindings[id]();
+      }
+
+      // data don't need to calculate if data already have value
+      if (typeof b.value != 'undefined') return;
+    }
 
     // prepare args
     var invLink = ctx.invLinks[id] || [];
@@ -266,6 +286,11 @@ var calculate = function(ctx) {
       } else {
         console.log(result);
       }
+
+      // binding
+      if (ctx.bindings && ctx.bindings[b.name]) {
+        ctx.bindings[b.name](result);
+      }
     });
   });
 };
@@ -275,8 +300,9 @@ module.exports = function(data) {
   loadBlockDef(data.blockDefs);
 
   var ctx = {};
-  loadBlock(data.blocks, ctx);
+  loadBlocks(data.blocks, ctx);
   loadLinks(data.links, ctx);
+  loadBindings(data.bindings, ctx);
 
   generateCalSeq(ctx);
 

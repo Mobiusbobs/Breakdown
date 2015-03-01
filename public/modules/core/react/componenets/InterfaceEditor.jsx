@@ -34,10 +34,8 @@ var InterfaceEditorMenu = React.createClass({
 	},
 
 	run: function() {
-		console.log('run');
-
 		var program = JSON.parse(this.props.programStr.value);
-		BreakDownEngine(program);
+		this.props.runWithProgram(program);
 	},
 
 	programChange: function(e) {
@@ -129,13 +127,34 @@ var DraggableElement = React.createClass({
 		});
 	},
 
+	onChange: function() {
+		var value = this.refs.ele.getDOMNode().value;
+		// TODO parse value
+		var arr = _.map(value.split('\n'), function(s) {
+			return parseInt(s, 10);
+		});
+
+		this.props.element.refine('value').set(arr);
+	},
+
 	bindNameChanged: function() {
 		var name = this.refs.bindingName.getDOMNode().value;
 		this.props.element.refine('bindingName').set(name);
 	},
 
 	render: function() {
-		var elementType = this.props.element.value.type;
+		var elementCursor = this.props.element;
+		var elementType = elementCursor.value.type;
+		var result = elementCursor.refine('result').value;
+		var elementProps = {
+			ref: "ele",
+			onChange: this.onChange
+		};
+
+		if (result) {
+			elementProps.value = result;
+		}
+
 		return (
 			<Draggable>
 				<div>
@@ -144,7 +163,7 @@ var DraggableElement = React.createClass({
 				<div>
 					bind to: <input ref="bindingName" onChange={this.bindNameChanged} />
 				</div>
-				{React.createElement(elementType)}
+				{React.createElement(elementType, elementProps)}
 			</Draggable>
 		);
 	}
@@ -188,6 +207,32 @@ var InterfaceEditor = React.createClass({
 		};
 	},
 
+	run: function(program) {
+		console.log('run');
+
+		var cursor = ReactCursor.Cursor.build(this);
+
+		// do binding here
+		this.state.elements.forEach(function(ele, i) {
+			var bindingName = ele.bindingName;
+			if (bindingName) {
+				program.bindings = program.bindings || [];
+				program.bindings[bindingName] = function (result) {
+					if (result) {
+						cursor.refine('elements', i, 'result').set(result);
+					}
+
+					return ele.value;
+				};
+			}
+		});
+
+		// program.bindings
+
+		// TODO this shouldn't belong to view
+		BreakDownEngine(program);
+	},
+
   render: function() {
 		var cursor = ReactCursor.Cursor.build(this);
 		var programStrCursor = cursor.refine('programString');
@@ -196,6 +241,7 @@ var InterfaceEditor = React.createClass({
 		return (
 			<div>
 				<InterfaceEditorMenu 
+					runWithProgram={this.run}
 					elements={elementsCursor} 
 					programStr={programStrCursor}
 				/>
