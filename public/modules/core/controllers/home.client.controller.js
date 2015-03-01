@@ -16,7 +16,7 @@ angular.module('core').factory('prompt', function () {
 //
 // Application controller.
 //
-.controller('HomeController', ['$scope', 'prompt', function ($scope, prompt) {
+.controller('HomeController', ['$scope', '$http', 'prompt', function ($scope, $http, prompt) {
     $scope.free_blocks = [
         {
             name: 'num',
@@ -295,6 +295,16 @@ angular.module('core').factory('prompt', function () {
 
         $scope.blocks.push(block);
         $scope.chartViewModel = new flowchart.ChartViewModel({nodes:[], connections:[]});
+
+        $http.post('/someUrl', {msg:'hello word!'}).
+        success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        }).
+        error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        });
     };
 
     $scope.add = function(block) {
