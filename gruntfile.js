@@ -6,7 +6,8 @@ module.exports = function(grunt) {
 		serverViews: ['app/views/**/*.*'],
 		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js'],
 		clientViews: ['public/modules/**/views/**/*.html'],
-		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
+		clientJS: ['public/js/*.js', 'public/modules/**/*.js', 'public/build/**/*.js'],
+		reactJS: ['public/modules/**/*.jsx'],
 		clientCSS: ['public/modules/**/*.css'],
 		mochaTests: ['app/tests/**/*.js']
 	};
@@ -47,6 +48,10 @@ module.exports = function(grunt) {
 				options: {
 					livereload: true
 				}
+			},
+			reactJS: {
+				files: watchFiles.reactJS,
+				tasks: ['react']
 			}
 		},
 		jshint: {
@@ -113,7 +118,7 @@ module.exports = function(grunt) {
 			}
 		},
 		concurrent: {
-			default: ['nodemon', 'watch'],
+			default: ['nodemon', 'watch', 'react'],
 			debug: ['nodemon', 'watch', 'node-inspector'],
 			options: {
 				logConcurrentOutput: true,
@@ -138,6 +143,15 @@ module.exports = function(grunt) {
 		karma: {
 			unit: {
 				configFile: 'karma.conf.js'
+			}
+		},
+		react: {
+			files: {
+				expand: true,
+				cwd: 'public/modules/',
+				src: ['**/*.jsx'],
+				dest: 'public/build/',
+				ext: '.js'
 			}
 		}
 	});

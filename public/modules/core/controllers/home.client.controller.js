@@ -17,6 +17,8 @@ angular.module('core').factory('prompt', function () {
 // Application controller.
 //
 .controller('HomeController', ['$scope', 'prompt', function ($scope, prompt) {
+    $scope.blocks = [];
+
 
     //
     // Code for the delete key.
@@ -229,6 +231,34 @@ angular.module('core').factory('prompt', function () {
         }
 
         $scope.chartViewModel.addNode(newBlock);
+    };
+
+    $scope.save = function() {
+        var name = prompt("Please enter block name", "");
+
+        var block = {
+            name: name,
+            data: $scope.chartViewModel.data
+        };
+
+        $scope.blocks.push(block);
+        $scope.chartViewModel = new flowchart.ChartViewModel([]);
+    };
+
+    $scope.add = function(block) {
+        if (!$scope.chartViewModel.data.nodes) {
+            $scope.chartViewModel.data.nodes = [];
+        }
+        _.forEach(block.data.nodes, function(item) {
+            $scope.chartViewModel.data.nodes.push(item);
+        });
+
+        if (!$scope.chartViewModel.data.connections) {
+            $scope.chartViewModel.data.connections = [];
+        }
+        _.forEach(block.data.connections, function(item) {
+            $scope.chartViewModel.data.connections.push(item);
+        });
     };
 
     $scope.output = function() {

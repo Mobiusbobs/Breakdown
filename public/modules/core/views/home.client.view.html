@@ -24,10 +24,10 @@
 <section ng-init="isEditor = true" style="min-height: 800px;padding: 20px;"
          mouse-capture ng-keydown="keyDown($event)" ng-keyup="keyUp($event)" data-ng-controller="HomeController">
 
-	<ul class="nav nav-tabs" style="margin-bottom: 15px;">
-	  	<li role="presentation"><a ng-click="isEditor = true">Editor</a></li>
-	  	<li role="presentation"><a ng-click="isEditor = false">Interface</a></li>
-	</ul>
+    <ul class="nav nav-tabs" style="margin-bottom: 15px;">
+        <li role="presentation"><a ng-click="isEditor = true">Editor</a></li>
+        <li role="presentation"><a ng-click="isEditor = false">Interface</a></li>
+    </ul>
 
 	<div ng-show="isEditor" class="row" style="height: 500px;">
 		<div class="col-md-3" style="height: 100%;">
@@ -39,10 +39,10 @@
 			<div class="panel panel-default">
 			    <div class="panel-body">
 			    	<div>Number block</div>
-			        <span ng-click="addBlock('num: 1', 'data', 1)" class="label label-default">num</span>
-			        <span ng-click="addBlock('array: [1,2,3]', 'data', [1,2,3])" class="label label-default">array</span>
-			        <div>Operation Block</div>
-			        <span ng-click="addBlock('+', 'plus')" class="label label-default">+</span>
+						<span ng-click="addBlock('num: 1', 'data', 1)" class="label label-default">num</span>
+						<span ng-click="addBlock('array: [1,2,3]', 'data', [1,2,3])" class="label label-default">array</span>
+						<div>Operation Block</div>
+						<span ng-click="addBlock('+', 'plus')" class="label label-default">+</span>
 				    <span ng-click="addBlock('-', 'minus')" class="label label-default">-</span>
 				    <span ng-click="addBlock('*', 'multiple')" class="label label-default">*</span>
 				    <span ng-click="addBlock('/', 'divide')" class="label label-default">/</span>
@@ -108,7 +108,7 @@
 
 		</div>
 	</div>
-	<div ng-hide="isEditor">
-		
+	<div ng-hide="isEditor" class="row" style="height: 500px;">
+		<react-component name="InterfaceEditor" />
 	</div>
 </section>

@@ -27,12 +27,10 @@ module.exports = {
 				'public/lib/angular-ui-router/release/angular-ui-router.js',
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-				'public/lib/flowchart/svg_class.js',
-				'public/lib/flowchart/mouse_capture_service.js',
-				'public/lib/flowchart/dragging_service.js',
-				'public/lib/flowchart/flowchart_viewmodel.js',
-				'public/lib/flowchart/flowchart_directive.js',
-				'public/lib/lodash/lodash.js'
+				'public/lib/lodash/lodash.js',
+				'public/lib/react/react.js',
+				'public/lib/ngReact/ngReact.min.js',
+				'public/lib/react-cursor.js'
 			]
 		},
 		css: [
@@ -42,7 +40,8 @@ module.exports = {
 			'public/config.js',
 			'public/application.js',
 			'public/modules/*/*.js',
-			'public/modules/*/*[!tests]*/*.js'
+			'public/modules/*/*[!tests]*/*.js',
+			'public/build/**/*.js'
 		],
 		tests: [
 			'public/lib/angular-mocks/angular-mocks.js',
