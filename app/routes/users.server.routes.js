@@ -15,6 +15,7 @@ module.exports = function(app) {
 	app.route('/users/accounts').delete(users.removeOAuthProvider);
 
     app.route('/blocks/:blockId').post(users.buyBlock);
+    app.route('/blocks').post(users.addMyStory);
 
 	// Setting up the users password api
 	app.route('/users/password').post(users.changePassword);

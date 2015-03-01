@@ -6,6 +6,25 @@
         padding: 0;
     }
 
+    header>.container{
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    @media (min-width: 992px){
+        header>.container {
+            width: 970px;
+        }
+    }
+
+    @media (min-width: 768px){
+        header.container{
+            width: 750px;
+        }
+    }
+
     .a-block{
         height: 300px;
         width: 300px;
@@ -49,6 +68,18 @@
         -webkit-text-fill-color: transparent;
     }
 
+    .footer-block{
+        background: #ee6828;
+        text-align: center;
+        vertical-align: middle;
+        height: 100px;
+        padding: 50px;
+        width: 100%;
+        color: #fff;
+        font-size: 20px;
+        font-family: sans-serif;
+    }
+
 </style>
 <!-- photos form https://unsplash.com/license -->
 <div style="min-height: 600px;">
@@ -58,10 +89,10 @@
     <div class="a-block sec-block">
         <div style="padding: 100px; color: #EEE; text-align: left; font-weight: 100; font-size: 20px;">
             <p>
-                We make "use API" much more easier than ever.
+                We make "use API" so much easier than ever.
             </p>
             <p>
-                Though simply drag and drop, you can create your own application in 30 minutes.
+                Through simply drag and drop, you can create your own application in 30 seconds.
             </p>
             <p>
                 <br>
@@ -75,7 +106,10 @@
         </div>
     </div>
     <div class="a-block third-block">
-        <a href="/#!/editor"><h2 class="cool-text" style="margin: 0 auto; padding-top: 40px; font-family: sans-serif; font-weight: bolder; font-size: 65px;">Just go with us.</h2></a>
+        <a href="/#!/signup"><h2 class="cool-text" style="margin: 0 auto; padding-top: 40px; font-family: sans-serif; font-weight: bolder; font-size: 65px;">Just go with us.</h2></a>
+    </div>
+    <div class="a-block footer-block">
+        LAUNCH Hackathon 2015, SF
     </div>
 </div>
 
