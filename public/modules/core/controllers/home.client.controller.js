@@ -538,7 +538,8 @@ angular.module('core').factory('prompt', function () {
                 plus : "function(a, b) { return a + b; }",
                 minus : "function(a, b) { return a - b; }",
                 divide : "function(a, b) { return a / b; }",
-                
+                multiple: "function(a, b) { return a * b; }",
+
                 length : "function(a) { return a.length }",
                 sum : "function(a) { return _.reduce(a, function(x, y) { return x + y; }, 0); }",
 
