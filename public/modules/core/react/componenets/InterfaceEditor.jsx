@@ -58,6 +58,7 @@ var InterfaceEditorMenu = React.createClass({
 				<Panel>
 					<div>Add UI</div>
 					<ClickableSpan name="textarea" onClick={this.createUI} />
+					<ClickableSpan name="NumberInput" onClick={this.createUI} />
 					<ClickableSpan name="Map" onClick={this.createUI} />
 					<ClickableSpan name="Ball" onClick={this.createUI} />
 				</Panel>
@@ -112,6 +113,31 @@ var Draggable = React.createClass({
 						onDrag={this.onDrag}>
 				{this.props.children}
 			</div>
+		);
+	}
+});
+
+var NumberInput = React.createClass({
+	bindNameChanged: function() {
+		var name = this.refs.bindingName.getDOMNode().value;
+		this.props.element.refine('bindingName').set(name);
+	},
+
+	onChange: function() {
+		var str = this.refs.number.getDOMNode().value;
+		var value = parseInt(str, 10);
+		this.props.element.refine('value').set(value);
+	},
+
+	render: function() {
+		return (
+			<Draggable>
+				<div> NumberInput </div>
+				<div>
+					bind to: <input ref="bindingName" onChange={this.bindNameChanged} />
+				</div>
+				<input ref="number" onChange={this.onChange} />
+			</Draggable>
 		);
 	}
 });
@@ -229,6 +255,11 @@ var InterfaceCanvas = React.createClass({
 			if (e.type == 'Map') {
 				return (
 					<Map key={e.id} 
+						element={elementsCursor.refine(i)} />
+				);
+			} else if (e.type == 'NumberInput') {
+				return (
+					<NumberInput key={e.id}
 						element={elementsCursor.refine(i)} />
 				);
 			}
